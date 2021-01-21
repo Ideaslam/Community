@@ -1,0 +1,28 @@
+{
+  "dbConfig": {
+    "type": "postgres",
+    "host": "localhost",
+    "port": 5432,
+    "username": "postgres",
+    "password": "Face2010?",
+    "database": "community",
+    "entities": [],
+    "synchronize": true,
+    "migrationsTableName": "_migrations",
+    "migrations": [
+      "src/migration/**/.ts"
+    ],
+    "cli": {
+      "migrationsDir": "migration"
+    }
+  },
+  
+  "google": {
+    "baseUrl": "https://maps.googleapis.com/maps/api",
+    "key": "AIzaSyAi7rJltdEFZ49wuWCYPkp79jN3lsLVjLg"
+  },
+  "gitHub": {
+    "key": "dfbaf83fbdae93cded8411956c953ba261d74016"
+  } 
+  
+}
