@@ -1,5 +1,6 @@
 
-import { Entity, Column, PrimaryGeneratedColumn, BaseEntity, Unique } from 'typeorm';
+import { Entity, Column, PrimaryGeneratedColumn, BaseEntity, Unique, OneToMany, ManyToMany, ManyToOne } from 'typeorm';
+import { Expertise } from '../../Expertise/models/expertise.entity';
  
 
 @Entity()
@@ -28,6 +29,9 @@ export class Speciality extends BaseEntity {
 
     @Column({ nullable: true})  
     updatedAt: Date;
+
+    @ManyToOne(() => Expertise , expertise => expertise.specialities)
+    expertise: Expertise  ;
 
 
 }

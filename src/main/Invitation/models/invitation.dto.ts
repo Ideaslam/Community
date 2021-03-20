@@ -1,4 +1,4 @@
-import { Base } from "src/main/Shared/models/Base.model";
+import { Base } from "../../Shared/models/Base.model";
 
  
 

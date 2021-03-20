@@ -1,5 +1,5 @@
-import { Body, Controller, Delete, Get, Param, ParseIntPipe, Patch, Post, Put, Query, UsePipes, ValidationPipe } from '@nestjs/common'; 
- 
+import { Body, Controller, Delete, Get, Param, ParseIntPipe, Patch, Post, Put, Query, UsePipes, ValidationPipe } from '@nestjs/common';
+
 import { InvitationService } from './services/invitation.service';
 import { InvitationCreateDto, InvitationFilterDto, InvitationUpdateDto } from './models/invitation.dto';
 import { Invitation } from './models/invitation.entity';
@@ -22,21 +22,28 @@ export class InvitationController {
 
     @Post()
     @UsePipes(ValidationPipe)
-    CreateInvitation(@Body() invitation : Invitation): Promise<Invitation> {
-        return this.invitationService.createInvitation(invitation);
+    CreateInvitation(@Body() invitation: Invitation): Promise<Invitation> {
+        try {
+            return this.invitationService.createInvitation(invitation);
+        } catch (ex) {
+
+            return ex;
+        }
     }
 
     @Put('/:id')
     UpdateInvitation(
         @Param('id', ParseIntPipe) id: number,
-        @Body() invitation : Invitation  ): Promise<Invitation> {
+        @Body() invitation: Invitation): Promise<Invitation> {
         return this.invitationService.updateInvitation(invitation);
     }
+
+    
 
     @Delete('/:id')
     DeleteInvitation(@Param('id', ParseIntPipe) id: number): Promise<void> {
         return this.invitationService.deleteInvitation(id);
     }
 
-  
+
 }

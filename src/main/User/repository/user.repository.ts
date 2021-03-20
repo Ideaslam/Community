@@ -21,9 +21,10 @@ export class UserRepository extends Repository<User> {
     }
 
     async createUser(user: User): Promise<User>;
-    async  createUser(users: User[]): Promise<User[]>;
+    async createUser(users: User[]): Promise<User[]>;
     async createUser(user: User | User[]): Promise<User | User[]> {
         console.log('Create User')
+        
         if (Array.isArray(user)) {
             return  await this.save(user) ;
         }
@@ -32,7 +33,7 @@ export class UserRepository extends Repository<User> {
 
     async  updateUser(user: User): Promise<User>;
     async  updateUser(users: User[]): Promise<User[]>;
-    async updateUser(user: User | User[]): Promise<User | User[]> {
+    async  updateUser(user: User | User[]): Promise<User | User[]> {
         console.log('Update  User')
         if (Array.isArray(user)) {
             return  this.save(user) ; 

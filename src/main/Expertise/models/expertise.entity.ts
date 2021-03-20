@@ -1,9 +1,11 @@
 
-import { Entity, Column, PrimaryGeneratedColumn, BaseEntity, Unique } from 'typeorm';
+import { Entity, Column, PrimaryGeneratedColumn, BaseEntity, Unique, OneToMany, ManyToOne } from 'typeorm';
+import { Speciality } from '../../Speciality/models/speciality.entity';
+import { User } from '../../User/models/user.entity';
  
 
 @Entity()
-@Unique(["email", "isDeleted"])
+@Unique(["userId" ,"specialityId", "isDeleted"])
 export class Expertise extends BaseEntity {
     @PrimaryGeneratedColumn()
     id: number;
@@ -23,5 +25,12 @@ export class Expertise extends BaseEntity {
     @Column({ nullable: true})  
     updatedAt: Date;
 
+    
+    @ManyToOne(() => User , user => user.expertises)
+    user: User  ;
+
+    
+    @OneToMany(() => Speciality , speciality => speciality.expertise)
+    specialities: Speciality[]  ;
 
 }

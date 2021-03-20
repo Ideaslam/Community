@@ -1,5 +1,11 @@
 
-import { Entity, Column, PrimaryGeneratedColumn, BaseEntity, Unique } from 'typeorm';
+
+
+import { Entity, Column, PrimaryGeneratedColumn, BaseEntity, Unique, OneToOne, JoinColumn, OneToMany } from 'typeorm';
+import { Expertise } from '../../Expertise/models/expertise.entity';
+import { Invitation } from '../../Invitation/models/invitation.entity';
+import { Link } from '../../Link/models/link.entity';
+import { Profile } from '../../Profile/models/profile.entity';
  
 
 @Entity()
@@ -31,6 +37,20 @@ export class User extends BaseEntity {
 
     @Column({ nullable: true})  
     updatedAt: Date;
+ 
+    @OneToOne(() => Profile, profile => profile.user) // specify inverse side as a second parameter
+    @JoinColumn()
+    profile: Profile;
 
+
+    @OneToMany(() => Invitation, invitation => invitation.user)
+    invitations: Invitation[];
+
+    @OneToMany(() => Link, invitation => invitation.user)
+    links: Link[];
+    
+    
+    @OneToMany(() => Expertise , expertise => expertise.user)
+    expertises: Expertise[] ;
 
 }

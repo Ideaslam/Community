@@ -1,5 +1,7 @@
 
-import { Entity, Column, PrimaryGeneratedColumn, BaseEntity, Unique } from 'typeorm';
+
+import { Entity, Column, PrimaryGeneratedColumn, BaseEntity, Unique, OneToOne, JoinColumn } from 'typeorm';
+import { User } from '../../User/models/user.entity';
  
 
 @Entity()
@@ -28,6 +30,12 @@ export class Profile extends BaseEntity {
 
     @Column({ nullable: true})  
     updatedAt: Date;
+
+
+
+    @OneToOne(() => User, user => user.profile) // specify inverse side as a second parameter
+    user: User;
+    
 
 
 }

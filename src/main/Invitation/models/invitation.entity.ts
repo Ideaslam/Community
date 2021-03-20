@@ -1,5 +1,7 @@
 
-import { Entity, Column, PrimaryGeneratedColumn, BaseEntity, Unique } from 'typeorm';
+import { Entity, Column, PrimaryGeneratedColumn, BaseEntity, Unique, OneToMany, ManyToOne } from 'typeorm';
+import { Expertise } from '../../Expertise/models/expertise.entity';
+import { User } from '../../User/models/user.entity';
  
 
 @Entity()
@@ -32,6 +34,12 @@ export class Invitation extends BaseEntity {
 
     @Column({ nullable: true})  
     updatedAt: Date;
+
+
+    @ManyToOne(() => User , user => user.invitations)
+    user: User ;
+
+
 
 
 }

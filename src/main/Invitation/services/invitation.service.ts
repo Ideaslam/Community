@@ -1,6 +1,6 @@
 import { BadRequestException, Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
- 
+
 import { Connection } from 'typeorm';
 import { InvitationFilterDto } from '../models/invitation.dto';
 import { Invitation } from '../models/invitation.entity';
@@ -11,49 +11,66 @@ export class InvitationService {
 
     constructor(
         @InjectRepository(InvitationRepository)
-        private unitRepository: InvitationRepository,
+        private invitationRepository: InvitationRepository,
         private connection: Connection,
     ) {
     }
 
     async getInvitations(filterDTO?: InvitationFilterDto): Promise<Invitation[]> {
-        return this.unitRepository.getInvitations(filterDTO);
+        return this.invitationRepository.getInvitations(filterDTO);
     }
 
     async getInvitationById(id: number): Promise<Invitation> {
-        return this.unitRepository.getOne({ id });
+        return this.invitationRepository.getOne({ id });
 
     }
 
 
-    async createInvitation(unit: Invitation): Promise<Invitation> {
-        return await this.unitRepository.createInvitation(unit) ; 
+    async createInvitation(invitation: Invitation): Promise<Invitation> {
+        try {
+            invitation.isDeleted = false;
+            invitation.createdAt = new Date();
+            invitation.code = this.generateRandomLetter() + this.generateRandomLetter() + this.generateRandomLetter() + this.generateRandomLetter() + this.generateRandomLetter();
+
+            return await this.invitationRepository.createInvitation(invitation);
+        } catch (ex) {
+            throw new BadRequestException(ex.message);
+
+        }
     }
 
-    async createInvitations(unit: Invitation[]): Promise<Invitation[]> { 
-        return await this.unitRepository.createInvitation(unit) ; 
+    async createInvitations(invitation: Invitation[]): Promise<Invitation[]> {
+
+
+        return await this.invitationRepository.createInvitation(invitation);
     }
 
-   async updateInvitation(unit: Invitation): Promise<Invitation> {
-        return  await this.unitRepository.updateInvitation(unit) ;  
-    }
-
-
-    async updateInvitations(unit: Invitation[]): Promise<Invitation[]> {
-        return await this.unitRepository.updateInvitation(unit) 
+    async updateInvitation(invitation: Invitation): Promise<Invitation> {
+        return await this.invitationRepository.updateInvitation(invitation);
     }
 
 
-    
-
-  async   deleteInvitation(id: number): Promise<void> {
-        return await this.unitRepository.deleteInvitation([id]) ;
-
-    } 
-
-    async  deleteInvitations(id: number[]): Promise<void> {
-        return await  this.unitRepository.deleteInvitation(id) ;
+    async updateInvitations(invitation: Invitation[]): Promise<Invitation[]> {
+        return await this.invitationRepository.updateInvitation(invitation)
     }
 
+
+
+
+    async deleteInvitation(id: number): Promise<void> {
+        return await this.invitationRepository.deleteInvitation([id]);
+
+    }
+
+    async deleteInvitations(id: number[]): Promise<void> {
+        return await this.invitationRepository.deleteInvitation(id);
+    }
+
+
+    generateRandomLetter() {
+        const alphabet = "abcdefghijklmnopqrstuvwxyz"
+
+        return alphabet[Math.floor(Math.random() * alphabet.length)]
+    }
 
 }

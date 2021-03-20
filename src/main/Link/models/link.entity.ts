@@ -1,5 +1,6 @@
 
-import { Entity, Column, PrimaryGeneratedColumn, BaseEntity, Unique } from 'typeorm';
+import { Entity, Column, PrimaryGeneratedColumn, BaseEntity, Unique, OneToMany, ManyToOne } from 'typeorm';
+import { User } from '../../User/models/user.entity';
  
 
 @Entity()
@@ -22,6 +23,12 @@ export class Link extends BaseEntity {
 
     @Column({ nullable: true})  
     updatedAt: Date;
+
+    @ManyToOne(() => User, user => user.links)
+    user:User;
+
+    @ManyToOne(() => User, parent => parent.links)
+    parent:User;
 
 
 }
